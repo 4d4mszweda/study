@@ -1,11 +1,12 @@
 from stepik import insertGraph
 
 def main():
-    graph = insertGraph()
-    colors = graph[len(graph)-1]
-    graph.remove(graph[len(graph)-1])
-    graph.remove(graph[len(graph)-1])
-    if(colorfulGraph(graph, colors)):
+    # graph_list = insertGraph()  #if you want insert in console
+    graph_list = [[1, 2],
+                  [2, 1, 3],
+                  [3, 2]]
+    colors = 3
+    if(colorfulGraph(graph_list, colors)):
         print("Graph is colorful")
     else:
         print("Graph is not colorful")

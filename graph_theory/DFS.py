@@ -6,7 +6,7 @@ Output: DFS path
 """
 
 def main():
-    # graph_list = insertGraph()  #if you want inster in console
+    # graph_list = insertGraph()  #if you want insert in console
     graph_list = [[1, 2],
                   [2, 1, 3],
                   [3, 2]]
