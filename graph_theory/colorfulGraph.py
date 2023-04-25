@@ -1,8 +1,8 @@
 from stepik import insertGraph
 
 """
-Input: graph adjacency list (like example)
-Output: DFS path
+Input: graph adjacency list (like example) and number of colors that you want to use
+Output: information whether it is possible to color this graph with the given number of colors
 """
 
 def main():
