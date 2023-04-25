@@ -1,13 +1,18 @@
 from stepik import insertGraph, printList
 
+"""
+Input: graph adjacency list (like example)
+Output: DFS path
+"""
+
 def main():
     # graph_matrix = insertGraph()  #if you want inster in console
-    graph_matrix = [[1,1,1],
-                    [1,1,1],
-                    [1,1,1]]
+    graph_list = [[1, 2],
+                  [2, 1, 3],
+                  [3, 2]]
     vertex = 1
-    print(dfs(graph_matrix, vertex, visited = []))
-    printList(iterativeDFS(graph_matrix, vertex))
+    print("DFS order: ", dfs(graph_list, vertex, visited = []))
+    print("iterative DFS order: ", iterativeDFS(graph_list, vertex))
 
 def dfs(graph, vertex, visited):
     if(vertex not in visited):
