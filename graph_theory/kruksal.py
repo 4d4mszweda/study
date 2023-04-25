@@ -1,3 +1,5 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     num_v=numberOfVertices(graph)
@@ -67,17 +69,6 @@ def weightList(graph):
                 weight.append(graph[num][num2])
                 position.append([num+1, num2+1])
     return weight, position
-
-def insertGraph():
-    G = []
-    while True:
-        try:
-            G.append(( input() ).split())
-        except:
-            break
-    for num in range(len(G)):
-        G[num] = list(map(int, G[num]))
-    return G
 
 def createDictionary(weight_list, position_list):
     my_dict=dict()

@@ -16,6 +16,7 @@ Exemple input:
 Output:
 1 3
 """
+from stepik import insertGraph
 
 def main():
     graph = insertGraph()
@@ -73,17 +74,6 @@ def dijkstra(graph, vertex):
                 w = graph[u][num]
             D[num] = min(D[num], D[u]+w)
     return D
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

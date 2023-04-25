@@ -1,3 +1,5 @@
+from stepik import insertGraph, printList
+
 def main():
     graph = insertGraph()
     new_vertex = newVertexButEdges(graph)
@@ -54,26 +56,6 @@ def dfs(graph, vertex, visited):
         for next in graph[vertex-1]:
             dfs(graph, next, visited)
     return visited
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
-
-def printList(list):
-    for x in list:
-        for y in x:
-            print(tuple(y), end="")
-            if(y == x[-1]):
-                print("")
-            else:
-                print("", end=" ")
 
 if __name__ == "__main__":
     main()

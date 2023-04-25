@@ -1,12 +1,14 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     colors = graph[len(graph)-1]
     graph.remove(graph[len(graph)-1])
     graph.remove(graph[len(graph)-1])
     if(colorfulGraph(graph, colors)):
-        print("Graf jest kolorowalny")
+        print("Graph is colorful")
     else:
-        print("Graf nie jest kolorowalny")
+        print("Graph is not colorful")
 
 def colorfulGraph(graph, colors):
     for next in graph:
@@ -16,17 +18,6 @@ def colorfulGraph(graph, colors):
                 continue
             return False
     return True
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

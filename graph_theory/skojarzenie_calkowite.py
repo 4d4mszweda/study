@@ -1,3 +1,5 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     if(matchmaker(graph, True) == True):
@@ -85,17 +87,6 @@ def picassoGraph(graph):
                 colors[next] = num
                 break
     return colors, max(colors)
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,5 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     rest = restGraph(graph)
@@ -19,17 +21,6 @@ def restGraph(graph):
                 temp.append(num+1)
         restG.append(temp)
     return restG
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

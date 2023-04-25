@@ -1,3 +1,5 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     dfs_graph = dfs(graph, 0, visited=[])
@@ -102,17 +104,6 @@ def degVertex(G):
     if(i > 0):
         return 2
     return 1
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

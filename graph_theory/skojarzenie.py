@@ -1,3 +1,5 @@
+from stepik import insertGraph
+
 def main():
     graph = insertGraph()
     edge_list = []
@@ -78,26 +80,6 @@ def newListSkierowany(graph, new_v_list):
                 temp.append(new)
         new_list.append(temp)
     return new_list
-
-def printList(list):
-    for x in list:
-        for y in x:
-            print(tuple(y), end="")
-            if(y == x[-1]):
-                print("")
-            else:
-                print("", end=" ")
-
-def insertGraph():
-    graph = []
-    while True:
-        try:
-            graph.append(( input() ).split())
-        except:
-            break
-    for num in range(len(graph)):
-        graph[num] = list(map(int, graph[num]))
-    return graph
 
 if __name__ == "__main__":
     main()

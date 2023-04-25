@@ -1,5 +1,6 @@
 import math                                                 
-                                                    
+from stepik import insertGraph, printList
+
 def main():
     G = insertGraph()
     num_v=numberOfVertices(G)
@@ -111,24 +112,6 @@ def graphHipercube(G, num_v, num_edg, deg_avg):
         return True
     else:
         return False
-
-def insertGraph():
-    G = []
-    while True:
-        try:
-            G.append(( input() ).split())
-        except:
-            break
-    for num in range(len(G)):
-        G[num] = list(map(int, G[num]))
-    return G
-
-def printList(list):
-    for num in range(len(list)):
-        if(len(list)-1>num):
-            print(list[num], end=" ") 
-        else:
-            print(list[num], end="\n")
 
 if __name__ == "__main__":
     main()
