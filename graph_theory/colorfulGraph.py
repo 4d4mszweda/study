@@ -1,5 +1,10 @@
 from stepik import insertGraph
 
+"""
+Input: graph adjacency list (like example)
+Output: DFS path
+"""
+
 def main():
     # graph_list = insertGraph()  #if you want insert in console
     graph_list = [[1, 2],

@@ -1,7 +1,7 @@
 from stepik import insertGraph, printList
 
 """
-Input: graph adjacency list (like example)
+Input: graph adjacency list (like example) and start vertex
 Output: DFS path
 """
 
