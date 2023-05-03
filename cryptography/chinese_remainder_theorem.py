@@ -20,6 +20,12 @@ def chineseTheorem(data):
     tab_m = []
     for next in data:
         tab_m.append(m/next[-1])
+    tab_n = []
+    for count, next in enumerate(data):
+        for num in range(tab_m[count] + 1):
+            if((num * tab_m[count]) % next[-1] == 1):
+                tab_n.append(num)
+                break
         
 
     
