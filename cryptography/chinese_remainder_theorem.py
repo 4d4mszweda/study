@@ -11,6 +11,15 @@ def chineseTheorem(data):
             if(next2 != next):
                 if(nwd(next[-1], next2[-1]) != 1):
                     return "nie są względnie pierwsze"
+    m = 0
+    for next in data:
+        if(m != 0):
+            m *= next[-1]
+            continue
+        m = next[-1]
+    tab_m = []
+    for next in data:
+        tab_m.append(m/next[-1])
         
 
     
