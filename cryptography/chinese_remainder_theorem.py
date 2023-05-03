@@ -1,34 +1,44 @@
 def main():
     data = insertText()
+    data = convertData(data)
     result = chineseTheorem(data)
     print(result)
 
 def chineseTheorem(data):
-    for next in data:
-        if(len(next) != 2):
-            return "Brak rozwiązania!!!"
-        for next2 in data:
-            if(next2 != next):
-                if(nwd(int(next[-1]), int(next2[-1])) != 1):
-                    return "nie są względnie pierwsze"
-    m = 0
-    for next in data:
-        if(m != 0):
-            m *= int(next[-1])
-            continue
-        m = int(next[-1])
-    tab_m = []
-    for next in data:
-        tab_m.append(int(m/int(next[-1])))
-    tab_n = []
-    for count, next in enumerate(data):
-        for num in range(tab_m[count] + 1):
-            if((num * tab_m[count]) % int(next[-1]) == 1):
-                tab_n.append(num)
-                break
-    print(m)
-    print(tab_m)
-    print(tab_n)
+    try:
+        m = 0
+        for next in data:
+            if(m != 0):
+                m *= next[-1]
+                continue
+            m = next[-1]
+        tab_m = []
+        for next in data:
+            tab_m.append(int(m/next[-1]))
+        tab_n = []
+        for count, next in enumerate(data):
+            for num in range(tab_m[count] + 1):
+                if((num * tab_m[count]) % next[-1] == 1):
+                    tab_n.append(num)
+                    break
+        # print(m)
+        # print(tab_m)
+        # print(tab_n)
+        result = 0
+        for num in range(len(tab_m)):
+            result += int(data[num][0]) * tab_m[num] * tab_n[num]
+        return result
+    except:
+        return "Brak rozwiązania!!!"
+
+def convertData(data):
+    result = []
+    for num in range(len(data[0])):
+        temp = []
+        for next in data:
+            temp.append(int(next[num]))
+        result.append(temp)
+    return result
 
 def nwd(a, b):
     if b > 0:
