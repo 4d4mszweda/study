@@ -7,6 +7,12 @@ def chineseTheorem(data):
     for next in data:
         if(len(next) != 2):
             return "Brak rozwiązania!!!"
+        for next2 in data:
+            if(next2 != next):
+                if(nwd(next[-1], next2[-1]) != 1):
+                    return "nie są względnie pierwsze"
+        
+
     
 
 def nwd(a, b):
