@@ -9,26 +9,26 @@ def chineseTheorem(data):
             return "Brak rozwiązania!!!"
         for next2 in data:
             if(next2 != next):
-                if(nwd(next[-1], next2[-1]) != 1):
+                if(nwd(int(next[-1]), int(next2[-1])) != 1):
                     return "nie są względnie pierwsze"
     m = 0
     for next in data:
         if(m != 0):
-            m *= next[-1]
+            m *= int(next[-1])
             continue
-        m = next[-1]
+        m = int(next[-1])
     tab_m = []
     for next in data:
-        tab_m.append(m/next[-1])
+        tab_m.append(int(m/int(next[-1])))
     tab_n = []
     for count, next in enumerate(data):
         for num in range(tab_m[count] + 1):
-            if((num * tab_m[count]) % next[-1] == 1):
+            if((num * tab_m[count]) % int(next[-1]) == 1):
                 tab_n.append(num)
                 break
-        
-
-    
+    print(m)
+    print(tab_m)
+    print(tab_n)
 
 def nwd(a, b):
     if b > 0:
