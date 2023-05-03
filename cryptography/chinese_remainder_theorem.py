@@ -1,5 +1,13 @@
 def main():
     data = insertText()
+    result = chineseTheorem(data)
+    print(result)
+
+def chineseTheorem(data):
+    for next in data:
+        if(len(next) != 2):
+            return "Brak rozwiązania!!!"
+    
 
 def nwd(a, b):
     if b > 0:
@@ -33,7 +41,7 @@ def insertText():
     text = []
     while True:
         try:
-            text.append( input() )
+            text.append( input().split() )
         except:
             break
     return text
