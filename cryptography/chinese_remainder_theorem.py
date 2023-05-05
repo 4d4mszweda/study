@@ -5,6 +5,13 @@ def main():
         print(result)
 
 def chineseTheorem(data):
+    # for num in range(len(data[1])):
+    #     if(num == len(data[1]) - 1):
+    #         break
+    #     for num2 in range(num + 1, len(data[1])):
+    #         if(nwd(int(data[1][num]), int(data[1][num2])) != 1):
+    #             print("COS MA SIĘ TU DZIAĆ")
+
     big_m = 1
     for m in data[1]:
         big_m *= int(m)
@@ -31,11 +38,11 @@ def chineseTheorem(data):
             tab_n.append(temp1)
         except:
             print("Brak rozwiązania!!!", end='')
-            return    
+            return
     result = 0
     for a, M, N in zip(data[0], tab_m, tab_n):
         result += int(a) * M * N
-    return result
+    return result % big_m
 
 
 
