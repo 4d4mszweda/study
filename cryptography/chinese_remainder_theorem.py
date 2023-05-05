@@ -7,13 +7,26 @@ def chineseTheorem(data):
     big_m = 1
     for m in data[1]:
         big_m *= m
-        
+
     tab_m = []
     for m in data[1]:
-        tab_m.append(int(big_m/m))
+        tab_m.append(big_m//m)
+
     tab_n = []
     for m, M in zip(data[1], tab_m):
-        print()
+        temp0 = 0
+        temp1 = 1
+        temp2 = m
+        if(m == 1):
+            tab_n.append(1)
+            continue
+        while(M > 1):
+            q = M // m
+            M, m = m, M % m
+            temp0, temp1 = temp1 - q * temp0, temp0
+        if(temp1 < 0):
+            temp1 += temp2
+        tab_n.append(temp1)
         
     result = 0
     for num in range(len(tab_m)):
