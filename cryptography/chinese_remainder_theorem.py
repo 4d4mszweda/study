@@ -1,44 +1,26 @@
 def main():
     data = insertText()
-    data = convertData(data)
     result = chineseTheorem(data)
     print(result)
 
 def chineseTheorem(data):
-    try:
-        m = 0
-        for next in data:
-            if(m != 0):
-                m *= next[-1]
-                continue
-            m = next[-1]
-        tab_m = []
-        for next in data:
-            tab_m.append(int(m/next[-1]))
-        tab_n = []
-        for count, next in enumerate(data):
-            for num in range(tab_m[count] + 1):
-                if((num * tab_m[count]) % next[-1] == 1):
-                    tab_n.append(num)
-                    break
-        # print(m)
-        # print(tab_m)
-        # print(tab_n)
-        result = 0
-        for num in range(len(tab_m)):
-            result += int(data[num][0]) * tab_m[num] * tab_n[num]
-        return result
-    except:
-        return "Brak rozwiązania!!!"
-
-def convertData(data):
-    result = []
-    for num in range(len(data[0])):
-        temp = []
-        for next in data:
-            temp.append(int(next[num]))
-        result.append(temp)
+    big_m = 1
+    for m in data[1]:
+        big_m *= m
+        
+    tab_m = []
+    for m in data[1]:
+        tab_m.append(int(big_m/m))
+    tab_n = []
+    for m, M in zip(data[1], tab_m):
+        print()
+        
+    result = 0
+    for num in range(len(tab_m)):
+        result += int(data[num][0]) * tab_m[num] * tab_n[num]
     return result
+
+
 
 def nwd(a, b):
     if b > 0:
