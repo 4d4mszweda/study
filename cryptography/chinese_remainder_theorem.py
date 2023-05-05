@@ -1,36 +1,40 @@
 def main():
     data = insertText()
     result = chineseTheorem(data)
-    print(result)
+    if(result):
+        print(result)
 
 def chineseTheorem(data):
     big_m = 1
     for m in data[1]:
-        big_m *= m
+        big_m *= int(m)
 
     tab_m = []
     for m in data[1]:
-        tab_m.append(big_m//m)
+        tab_m.append(big_m//int(m))
 
     tab_n = []
     for m, M in zip(data[1], tab_m):
         temp0 = 0
         temp1 = 1
-        temp2 = m
+        temp2 = int(m)
         if(m == 1):
             tab_n.append(1)
             continue
-        while(M > 1):
-            q = M // m
-            M, m = m, M % m
-            temp0, temp1 = temp1 - q * temp0, temp0
-        if(temp1 < 0):
-            temp1 += temp2
-        tab_n.append(temp1)
-        
+        try:
+            while(M > 1):
+                q = M // int(m)
+                M, m = int(m), M % int(m)
+                temp0, temp1 = temp1 - q * temp0, temp0
+            if(temp1 < 0):
+                temp1 += temp2
+            tab_n.append(temp1)
+        except:
+            print("Brak rozwiązania!!!", end='')
+            return    
     result = 0
-    for num in range(len(tab_m)):
-        result += int(data[num][0]) * tab_m[num] * tab_n[num]
+    for a, M, N in zip(data[0], tab_m, tab_n):
+        result += int(a) * M * N
     return result
 
 
