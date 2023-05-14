@@ -13,7 +13,7 @@ def frematTestRandom(n):
     if(nwd_number != 1):
        return False
     if(nwd_number == 1):
-        x = (nwd_number ** (n - 1)) % n
+        x = (random_number ** (n - 1)) % n
         if(x != 1):
             return False
         if(x == 1):
