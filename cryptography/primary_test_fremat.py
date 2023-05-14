@@ -1,5 +1,10 @@
 import random
 
+"""
+IN: number n
+OUT: Information as to whether n is complex or possibly prime 
+"""
+
 def main():
     temp = frematTest(361, 141)
     if(temp):
