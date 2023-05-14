@@ -2,13 +2,18 @@ import math
 import random
 
 def main():
-    n = int(input())
+    primary = testRabinMiller(280001, 105532)
+    if(primary):
+        print("Pierwsza")
+    else:
+        print("Złożona")
 
 def testRabinMiller(n, a = 0):
+
     if(a == 0):
         a = random.randint(1, n)
     
-    end = math.log(n , 2)
+    end = int(math.log(n , 2))
 
     k = 10                      #change k later
     for num in range(2, end):
