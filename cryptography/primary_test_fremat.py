@@ -6,19 +6,24 @@ OUT: Information as to whether n is complex or possibly prime
 """
 
 def main():
-    temp = frematTest(361, 141)
-    if(temp):
-        print("Liczba pierwsza")
-    else:
-        print("Liczba złożona")
+    opt = insertText()
+    opt = opt[0].split()
+    for num in range(int(opt[1])):
+        temp = frematTestRandom(int(opt[0]), int(opt[2]))
+        if(temp == False):
+            print("Liczba złożona", end='')
+            return
+    print("Liczba prawdopodobnie pierwsza", end='')
+            
 
-def frematTestRandom(n):
-    random_number = random.randint(1, n)
+def frematTestRandom(n, s):
+    random.seed(s)
+    random_number = random.randint(2, n-1)
     nwd_number = nwd(random_number, n)
     if(nwd_number != 1):
        return False
     if(nwd_number == 1):
-        x = (random_number ** (n - 1)) % n
+        x = moduloAmplification(random_number, (n-1), n)
         if(x != 1):
             return False
         if(x == 1):
@@ -36,8 +41,16 @@ def moduloAmplification(a, b, m):
     for eb, ea in zip(B, A):
         if(eb % 2 != 0):
             result *= ea
-    return result
+    return result % m
 
+def insertText():
+    text = []
+    while True:
+        try:
+            text.append( input() )
+        except:
+            break
+    return text
 
 def frematTest(n, a):
     nwd_number = nwd(a, n)
