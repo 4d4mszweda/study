@@ -41,6 +41,15 @@ def testRabinMiller(n, a = 0):
             temp_x = next
         return False
 
+def millerRabinoHelper(n):
+    x = n - 1
+    tmp = 0
+    while(x % 2 == 0):
+        x = x // 2
+        tmp += 1
+    return x, tmp
+
+
 def nwd(a, b):
     if b > 0:
         return nwd(b, a%b)
