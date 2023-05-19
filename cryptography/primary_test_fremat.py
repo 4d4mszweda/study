@@ -24,6 +24,21 @@ def frematTestRandom(n):
         if(x == 1):
             return True
 
+def moduloAmplification(a, b, m):
+    result = 1
+    A = [a]
+    B = [b]
+    while(b != 0):
+        a = (a ** 2) % m
+        A.append(a)
+        b = b // 2
+        B.append(b)
+    for eb, ea in zip(B, A):
+        if(eb % 2 != 0):
+            result *= ea
+    return result
+
+
 def frematTest(n, a):
     nwd_number = nwd(a, n)
     if(nwd_number != 1):
