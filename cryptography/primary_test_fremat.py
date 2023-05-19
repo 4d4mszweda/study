@@ -20,7 +20,9 @@ def frematTestRandom(n, s):
     random.seed(s)
     random_number = random.randint(2, n-1)
     nwd_number = nwd(random_number, n)
-    if(nwd_number != 1):
+    if(n < 2):
+        return False
+    if(nwd_number > 1):
        return False
     if(nwd_number == 1):
         x = moduloAmplification(random_number, (n-1), n)
