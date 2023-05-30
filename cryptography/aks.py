@@ -1,3 +1,4 @@
+import math
 def main():
     n = int(input())
     primary = aks(n)
@@ -7,35 +8,34 @@ def main():
         print("Liczba złożona", end='')
 
 def aks(n):
-    if(n % 2 == 0 or n < 2 or n % 3 == 0):
-        return False
-    elif(n == 3):
+    if(n == 2 or n == 3):
         return True
-    exp = expansionOfN(n)
-    temp = n
-    for i in range(1, int(n**0.5)+1):
-        if exp[i] > 0:
-            temp *= i
-            temp %= n
-            if temp != 0 and nwd(n, i) > 1:
-                return False
-    if temp != 0:
+    if(n == 1 or n % 2 == 0):
         return False
-    for i in range(1, int(n**0.5)+1):
-        if exp[i] > 1:
+    #PERFECT POWER
+    for a in range(2, int(math.log2(n)) + 1):
+        if(nwd(a, n) > 1):
             return False
+        if(moduloAmplification(a, n, n) != a % n):
+            return False
+
+    if(moduloAmplification(2, n, n) != 2):
+        return False
     return True
 
-def expansionOfN(n):
-    exp = [1]
-    for k in range(1, n):
-        exp.append(0)
-        for j in range(k, 0, -1):
-            exp[j] = exp[j] + exp[j-1]
-    exp.append(1)
-    exp[0] += 1
-    exp[n] -= 1
-    return exp
+def moduloAmplification(a, b, m):
+    result = 1
+    A = [a]
+    B = [b]
+    while(b != 0):
+        a = (a ** 2) % m
+        A.append(a)
+        b = b // 2
+        B.append(b)
+    for eb, ea in zip(B, A):
+        if(eb % 2 != 0):
+            result *= ea
+    return result % m
 
 def nwd(a, b):
     if b > 0:
