@@ -9,4 +9,4 @@ pub fn collatz_conjecture(n: u64) {
         }
     }
     println!("1");
-} 
+}
