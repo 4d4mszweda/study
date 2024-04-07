@@ -49,6 +49,7 @@ def kmb(G, terminals):
     T_H = min_spanning_tree(H)
     T_G = nx.Graph()
     for u, v in T_H.edges():
+        # additional dikstra path search is bad for performance, better is rember all paths and use them here
         path = nx.dijkstra_path(G, u, v)
         for i in range(len(path) - 1):
             T_G.add_edge(path[i], path[i + 1])
