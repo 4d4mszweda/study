@@ -32,7 +32,7 @@ func (n Note) Display() {
 	fmt.Println("Created at: ", n.CreateAt)
 }
 
-func (n Note) SaveToFile() error {
+func (n Note) Save() error {
 	fileName := strings.ReplaceAll(n.Title, " ", "_")
 	fileName = strings.ToLower(fileName) + ".json"
 
