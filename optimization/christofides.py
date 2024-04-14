@@ -16,6 +16,10 @@ def main():
     G.add_edge('C', 'E', weight=8)
     G.add_edge('D', 'E', weight=9)
 
+    if  not (is_complete_graph(G)):
+        print("Graf nie jest pełny")
+        return
+
     if not check_triangle_inequality(G):
         print("Warunek trójkąta nie jest spełniony")
 
@@ -118,6 +122,13 @@ def check_triangle_inequality(G):
                     if u != w and v != w:
                         if G[u][v]['weight'] + G[v][w]['weight'] < G[u][w]['weight']:
                             return False
+    return True
+
+def is_complete_graph(G):
+    n = len(G.nodes)
+    for node in G.nodes:
+        if len(list(G.neighbors(node))) != n - 1:
+            return False
     return True
 
 if __name__ == "__main__":
