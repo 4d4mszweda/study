@@ -18,7 +18,6 @@ def main():
 
     if not check_triangle_inequality(G):
         print("Warunek trójkąta nie jest spełniony")
-        return
 
     fig, axs = plt.subplots(2, 3, figsize=(20, 5))
     # DISPALY INPUT GRAPH
