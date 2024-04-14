@@ -99,6 +99,7 @@ def christofides(G):
             eulerian_path_graph.add_edge(u, v, weight=G[u][v]['weight'])
 
         # Stage 6: Przekształć cykl Eulera w ścieżkę Hamiltona, usuwając powtarzające się wierzchołki
+        # ! HAMILTON PATH ERR
         hamiltonian_path = list(dict.fromkeys(eulerian_path_edges))
 
         hamiltonian_path_graph = nx.Graph() 
