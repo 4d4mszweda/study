@@ -35,7 +35,36 @@ class Project:
 
     def schedule(self):
         self.calculate_earliest_and_latest_start_times()
-        return sorted(self.tasks.values(), key=lambda task: task.earliest_start)
+        cpm = self.find_critical_path()
+        sorted_tasks = sorted(self.tasks.values(), key=lambda task: task.earliest_start)
+
+        max_len_machine = cpm[-1].latest_start + cpm[-1].duration
+        machine_taken_space = [0]
+        machine_list = [[]]
+
+        for tasks in sorted_tasks:
+            for i, machine in enumerate(machine_list):
+                if machine_taken_space[i] <= tasks.earliest_start  and machine_taken_space[i] + tasks.duration <= max_len_machine:
+                    machine.append(tasks)
+                    machine_taken_space[i] += + tasks.duration
+                    break
+            else:
+                machine_list.append([tasks])
+                machine_taken_space.append(tasks.duration)
+
+        return machine_list
+    
+    def print_tasks(self):
+        for task in self.tasks.values():
+            print(task.id, " -->  duration:", task.duration, "earliest start:", task.earliest_start, "latest start:", task.latest_start)
+
+    def print_schedule(self):
+        machine_list = self.schedule()
+        for i, machine in enumerate(machine_list):
+            print("Machine", i+1)
+            for task in machine:
+                print(task.id, " -->  duration:", task.duration)
+            print("")
 
     def get_schedule_length(self):
         return max([task.earliest_start + task.duration for task in self.tasks.values()])
@@ -74,16 +103,18 @@ def main():
     project.add_task('Z19', 3, ['Z16', 'Z17'])
 
     project.calculate_earliest_and_latest_start_times()
+    project.print_tasks()
 
-    print("Critical path:")
+    print("\nCritical path:")
     for task in project.find_critical_path():
-        print(task.id, "earliest start:", task.earliest_start, "latest start:", task.latest_start)
+        print(task.id, " -->  earliest start:", task.earliest_start, "latest start:", task.latest_start)
+
+    print("")
 
     print("Schedule:")
-    for task in project.schedule():
-        print(f"Task {task.id} starts at {task.earliest_start}")
+    project.print_schedule()
 
-    print("Schedule length:", project.get_schedule_length())
+    print("\nSchedule length:", project.get_schedule_length())
 
     project.visualize()
 
