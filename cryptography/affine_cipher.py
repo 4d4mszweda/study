@@ -8,7 +8,7 @@ def main():
     # code2 = affineDecipher(x, a, b)
     # printText(code)
     # printText(code2)
-    #test2
+    #test3
     # brutForceAffine(x)
     code, key = analysisOfAffine(x, temp)
     print(code)
