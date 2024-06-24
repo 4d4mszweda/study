@@ -6,7 +6,7 @@ def main():
         # code = caesarCoder(element, b)
         # code = caesarDecoder(element, b)
         # cipher.append(code)
-    # printText(cipher)12
+    # printText(cipher)122
     # brutForceCesar(txt)
     open_txt = txt.pop()
     code, key = analysisOfCesar(txt, open_txt)
