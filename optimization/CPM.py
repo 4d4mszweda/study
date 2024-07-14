@@ -4,54 +4,119 @@
 #  -> poda ścieżkę krytyczną, 
 #  -> poda harmonogram (wg najwcześniejszych czasów rozpoczęcia zadań 
 #  -> poda długość harmonogramu.
+
 import networkx as nx
 import matplotlib.pyplot as plt
 
 class Task:
-    def __init__(self, name, duration, predecessors=None):
-        self.name = name
+    def __init__(self, id, duration, dependencies):
+        self.id = id
         self.duration = duration
-        self.predecessors = predecessors if predecessors else []
+        self.dependencies = dependencies
+        self.earliest_start = 0
+        self.latest_start = 0
 
-def critical_path(tasks):
-    # Tworzenie grafu
-    G = nx.DiGraph()
+class Project:
+    def __init__(self):
+        self.tasks = {}
 
-    # Dodawanie zadań do grafu
-    for task in tasks:
-        G.add_node(task.name, duration=task.duration)
-        for pred in task.predecessors:
-            G.add_edge(pred, task.name)
+    def add_task(self, id, duration, dependencies):
+        self.tasks[id] = Task(id, duration, dependencies)
 
-    # Znajdowanie najdłuższych ścieżek w grafie (CPM)
-    critical_path = nx.dag_longest_path(G)
+    def calculate_earliest_and_latest_start_times(self):
+        for task in self.tasks.values():
+            task.earliest_start = max([self.tasks[id].earliest_start + self.tasks[id].duration for id in task.dependencies], default=0)
+        for task in reversed(list(self.tasks.values())):
+            task.latest_start = min([self.tasks[id].latest_start - task.duration for id in self.tasks if task.id in self.tasks[id].dependencies], default=task.earliest_start)
 
-    # Obliczanie długości ścieżki krytycznej
-    critical_path_duration = sum(G.nodes[task]["duration"] for task in critical_path)
+    def find_critical_path(self):
+        self.calculate_earliest_and_latest_start_times()
+        return [task for task in self.tasks.values() if task.earliest_start == task.latest_start]
 
-    return critical_path, critical_path_duration, G
+    def schedule(self):
+        self.calculate_earliest_and_latest_start_times()
+        cpm = self.find_critical_path()
+        sorted_tasks = sorted(self.tasks.values(), key=lambda task: task.earliest_start)
 
-def draw_network(G):
-    pos = nx.shell_layout(G)
-    node_labels = {node: f"{node}\n({G.nodes[node]['duration']})" for node in G.nodes()}
-    nx.draw(G, pos, with_labels=True, labels=node_labels, node_color="lightblue", node_size=2000, font_size=10)
-    plt.title("Activity on Arc Network")
-    plt.show()
+        max_len_machine = cpm[-1].latest_start + cpm[-1].duration
+        machine_taken_space = [0]
+        machine_list = [[]]
+
+        for tasks in sorted_tasks:
+            for i, machine in enumerate(machine_list):
+                if machine_taken_space[i] <= tasks.earliest_start  and machine_taken_space[i] + tasks.duration <= max_len_machine:
+                    machine.append(tasks)
+                    machine_taken_space[i] += + tasks.duration
+                    break
+            else:
+                machine_list.append([tasks])
+                machine_taken_space.append(tasks.duration)
+
+        return machine_list
+    
+    def print_tasks(self):
+        for task in self.tasks.values():
+            print(task.id, " -->  duration:", task.duration, "earliest start:", task.earliest_start, "latest start:", task.latest_start)
+
+    def print_schedule(self):
+        machine_list = self.schedule()
+        for i, machine in enumerate(machine_list):
+            print("Machine", i+1)
+            for task in machine:
+                print(task.id, " -->  duration:", task.duration)
+            print("")
+
+    def get_schedule_length(self):
+        return max([task.earliest_start + task.duration for task in self.tasks.values()])
+
+    def visualize(self):
+        G = nx.DiGraph()
+        for task in self.tasks.values():
+            G.add_node(task.id)
+            for dependency in task.dependencies:
+                G.add_edge(dependency, task.id)
+        pos = nx.spring_layout(G, k=2)
+        nx.draw(G, pos, with_labels=True)
+        plt.show()
+
 
 def main():
-    tasks = [
-        Task("Start", 0),
-        Task("A", 3, ["Start"]),
-        Task("B", 4, ["Start"]),
-        Task("C", 2, ["A"]),
-        Task("D", 5, ["A", "B"]),
-        Task("End", 0, ["C", "D"])
-    ]
+    project = Project()
+    project.add_task('Z1', 3, [])
+    project.add_task('Z2', 8, [])
+    project.add_task('Z3', 2, [])
+    project.add_task('Z4', 2, ['Z1'])
+    project.add_task('Z5', 4, ['Z1'])
+    project.add_task('Z6', 6, ['Z3'])
+    project.add_task('Z7', 9, ['Z3'])
+    project.add_task('Z8', 2, ['Z4'])
+    project.add_task('Z9', 1, ['Z5', 'Z2', 'Z6'])
+    project.add_task('Z10', 2, ['Z5', 'Z2', 'Z6'])
+    project.add_task('Z11', 1, ['Z7'])
+    project.add_task('Z12', 2, ['Z7'])
+    project.add_task('Z13', 6, ['Z8', 'Z9'])
+    project.add_task('Z14', 5, ['Z10', 'Z11'])
+    project.add_task('Z15', 9, ['Z10', 'Z11'])
+    project.add_task('Z16', 6, ['Z10', 'Z11'])
+    project.add_task('Z17', 2, ['Z12'])
+    project.add_task('Z18', 5, ['Z13', 'Z14'])
+    project.add_task('Z19', 3, ['Z16', 'Z17'])
 
-    cp, cp_duration, G = critical_path(tasks)
-    print("Critical Path:", cp)
-    print("Total Duration of Critical Path:", cp_duration)
-    draw_network(G)
+    project.calculate_earliest_and_latest_start_times()
+    project.print_tasks()
+
+    print("\nCritical path:")
+    for task in project.find_critical_path():
+        print(task.id, " -->  earliest start:", task.earliest_start, "latest start:", task.latest_start)
+
+    print("")
+
+    print("Schedule:")
+    project.print_schedule()
+
+    print("\nSchedule length:", project.get_schedule_length())
+
+    project.visualize()
 
 if __name__ == "__main__":
     main()
