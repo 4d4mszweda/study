@@ -1,28 +1,105 @@
 import pandas as pd
-# import numpy as np
+import numpy as np
+
+def count_null(df):
+    print(df.isnull().sum())
+
+def replace_out_of_range_with_nan(df, min_value=0, max_value=15):
+    for column in df.columns:
+        if column != 'variety':
+            df[column] = df[column].apply(lambda x: np.nan if x < min_value or x > max_value else x)
+
+def replace_invalid_variety(df, valid_varieties):
+    invalid_rows = df[~df['variety'].isin(valid_varieties)]
+    
+    print("Wiersze z nieprawidłowymi wartościami w kolumnie 'variety':")
+    print(invalid_rows)
+    
+    df['variety'] = df['variety'].apply(lambda x: x if x in valid_varieties else np.nan)
+
+def find_similar_variety(df, row_idx, tolerance=1):
+    row_to_check = df.loc[row_idx]
+    for idx, row in df.iterrows():
+        if idx != row_idx and not pd.isna(row['variety']):
+            similar = True
+            for column in df.columns:
+                if column != 'variety':
+                    if abs(row_to_check[column] - row[column]) > tolerance:
+                        similar = False
+                        break
+            if similar:
+                return row['variety']
+    return None
+
+def fill_missing_variety(df, tolerance_step=1):
+    for idx, row in df[df['variety'].isna()].iterrows():
+        tolerance = tolerance_step
+        similar_variety = None
+        while similar_variety is None:
+            similar_variety = find_similar_variety(df, idx, tolerance)
+            tolerance += tolerance_step 
+        
+        df.loc[idx, 'variety'] = similar_variety
 
 def main():
-    df = pd.read_csv('iris_with_errors.csv')
+    missing_flags = ['n/a', '-', 'na', '--']
+    valid_varieties = ["Setosa", "Versicolor", "Virginica"]
+    df = pd.read_csv('iris_with_errors.csv', na_values=missing_flags)
 
-    missing_data = df.isnull().sum()
-    print("Missing or incomplete data:\n", missing_data)
-    print("\nDataframe statistics with errors:\n", df.describe(include='all'))
+    count_null(df)
 
-    numeric_columns = ['sepal.length', 'sepal.width', 'petal.length', 'petal.width']
-    for column in numeric_columns:
-        mean_value = df[column].mean()
-        df[column] = df[column].apply(lambda x: mean_value if x <= 0 or x > 15 else x)
+    replace_out_of_range_with_nan(df)
+    replace_invalid_variety(df, valid_varieties)
+    print("Po zmianie numerów z poza zakresu:")
+    count_null(df)
 
-    valid_species = ["Setosa", "Versicolor", "Virginica"]
-    df['variety'] = df['variety'].apply(lambda x: x.capitalize() if x.lower() in [s.lower() for s in valid_species] else x)
 
-    incorrect_species = df[~df['variety'].isin(valid_species)]
-    print("\nIncorrect species names:\n", incorrect_species['variety'].unique())
+    fill_missing_variety(df)
+    print("Po uzupełnieniu brakujących wartości variety:")
+    count_null(df)
+    
+    for column in df.columns:
+        if column != 'variety':
+            median = df[column].median()
+            df[column] = df[column].fillna(median)
+    
+    print("po wyrównaniu wartości do zakresu 0-15")
+    count_null(df)
 
-    df['variety'] = df['variety'].replace("Versicolour", "Versicolor")
-    print("\nCleaned dataframe:\n", df.head())
+    df.to_csv('iris_cleaned.csv', index=False)
 
-    return
+    
 
 if __name__ == "__main__":
     main()
+
+# # Detecting numbers 
+# cnt=0
+# for row in df['OWN_OCCUPIED']:
+#     try:
+#         int(row)
+#         df.loc[cnt, 'OWN_OCCUPIED']=np.nan
+#     except ValueError:
+#         pass
+#     cnt+=1
+
+# # Any missing values
+# print df.isnull().values.any()
+
+
+# # Total number of missing values
+# print df.isnull().sum().sum()
+
+# # Replace missing values with a number
+# df['ST_NUM'].fillna(125, inplace=True)
+
+# # Location based replacement
+# df.loc[2,'ST_NUM'] = 125
+
+# # Replace using median 
+# median = df['NUM_BEDROOMS'].median()
+# df['NUM_BEDROOMS'].fillna(median, inplace=True)
+
+# # DROP COLUMNS
+# to_drop = ['name']
+# df.drop(to_drop, inplace=True, axis=1)
