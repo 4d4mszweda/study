@@ -18,7 +18,7 @@ def calcWave(birthDate, y):
     return math.sin((2 * math.pi / y) * daysDiff)
 
 def displayPersonInfo(name, birthDate, info, wave):
-    nameList = ["Physical", "Emotional", "INTELLECTUAL"]
+    nameList = ["PHYSICAL", "EMOTIONAL", "INTELLECTUAL"]
     print()
     print(info)
     print(name)
