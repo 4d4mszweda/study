@@ -27,7 +27,7 @@ def main():
     return
 
 def classify_iris(sl, sw, pl, pw):
-    if pl < 3:
+    if pl < 3: # 1 - 2
         return "setosa"
     elif pl < 5: # 5.1 max versicolor && 4.9 min virginica
         return "versicolor"
