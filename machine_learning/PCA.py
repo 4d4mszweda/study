@@ -33,7 +33,6 @@ def pca_visualization():
         plt.ylabel('Druga główna składowa')
         plt.title('Dane Iris zredukowane do 2 wymiarów (PCA)')
         plt.show()
-
     elif num_components == 3:
         fig = plt.figure(figsize=(8,6))
         ax = fig.add_subplot(111, projection='3d')
