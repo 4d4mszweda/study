@@ -21,15 +21,18 @@ def main():
     print("Good predictions: ", good_predictions)
     print("Accuracy: ", good_predictions/len*100, "%")
 
+    # train_set_sorted = train_set.sort_values(by='variety')
+    # print(train_set_sorted.to_string())
+
     return
 
 def classify_iris(sl, sw, pl, pw):
-    if sl > 4:
-        return("setosa")
-    elif pl <= 5:
-        return("virginica")
+    if pl < 3:
+        return "setosa"
+    elif pl < 5: # 5.1 max versicolor && 4.9 min virginica
+        return "versicolor"
     else:
-        return("versicolor")
+        return "virginica"
 
 if __name__ == "__main__":
     main()
