@@ -17,15 +17,20 @@ test_class = test_set['class']
 
 mlp = MLPClassifier(hidden_layer_sizes=(6, 3), activation='relu', max_iter=500, random_state=42)
 
-print(df.head())
+activations = ['identity', 'logistic', 'tanh', 'relu']
+results = {}
 
-mlp.fit(train_input, train_class)
+for activation in activations:
+    mlp = MLPClassifier(hidden_layer_sizes=(6, 3), activation=activation, max_iter=500, random_state=42)
+    mlp.fit(train_input, train_class)
+    y_pred = mlp.predict(test_input)
+    accuracy = accuracy_score(test_class, y_pred)
+    conf_matrix = confusion_matrix(test_class, y_pred)
+    results[activation] = (accuracy, conf_matrix)
 
-y_pred = mlp.predict(test_input)
-accuracy = accuracy_score(test_class, y_pred)
-conf_matrix = confusion_matrix(test_class, y_pred)
-
-print(f"Accuracy: {accuracy}")
-print(f"Confusion Matrix:\n{conf_matrix}")
+for activation, (accuracy, conf_matrix) in results.items():
+    print(f"Activation: {activation}")
+    print(f"Accuracy: {accuracy}")
+    print(f"Confusion Matrix:\n{conf_matrix}\n")
 
 # FN są gorsze
