@@ -35,8 +35,10 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 checkpoint = ModelCheckpoint('best_model.keras', monitor='val_accuracy', save_best_only=True, mode='max', verbose=1)
 
 # Train model
-history = History()
-model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.2, callbacks=[history])
+history = model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.2, callbacks=[checkpoint])
+
+# history = History()
+# model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.2, callbacks=[history])
 
 # Evaluate on test set
 test_loss, test_acc = model.evaluate(test_images, test_labels)
