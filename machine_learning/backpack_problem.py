@@ -39,16 +39,16 @@ def run_genetic_algorithm():
     ga_instance = pygad.GA(
         gene_space=[0, 1],
         num_generations=100,
-        num_parents_mating=5,
+        num_parents_mating=10,
         fitness_func=fitness_function,
         sol_per_pop=20,
         num_genes=len(items),
         parent_selection_type="sss",
-        keep_parents=2,
+        keep_parents=5,
         crossover_type="single_point",
         mutation_type="random",
-        mutation_percent_genes=8,
-        stop_criteria=["reach_1630"],
+        mutation_percent_genes=10,
+        # stop_criteria=["reach_1630"],
     )
 
     start_time = time.time()
