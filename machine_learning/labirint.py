@@ -3,54 +3,65 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
-labirynt = np.array([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
-    [0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0],
-    [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-    [0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0],
-    [0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
-    [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0],
-    [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0],
-    [0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0],
-    [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-])
+labirynt = np.array(
+    [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0],
+        [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0],
+        [0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0],
+        [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0],
+        [0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0],
+        [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+)
 
 start = (1, 1)
 end = (10, 10)
 
+
 def fitness_function(ga_instance, solution, solution_idx):
     x, y = start
-    steps = 0
     score = 0
-    
+    visited = set()
 
     for move in solution:
-        
+        next_x, next_y = x, y
+
         if move == 0:  # Góra
-            x -= 1
+            next_x -= 1
         elif move == 1:  # Dół
-            x += 1
+            next_x += 1
         elif move == 2:  # Lewo
-            y -= 1
+            next_y -= 1
         elif move == 3:  # Prawo
-            y += 1
+            next_y += 1
 
-        if 0 <= x < labirynt.shape[0] and 0 <= y < labirynt.shape[1] and labirynt[x, y] == 0:
-            steps += 1
-            
-
-            score += 1 / (abs(end[0] - x) + abs(end[1] - y) + 1)
-            if (x, y) == end:
-                score += 100
-                break
+        if 0 <= next_x < 11 and 0 <= next_y < 11:
+            if labirynt[next_x, next_y] == 1:
+                x, y = next_x, next_y
+                if (x, y) in visited:
+                    score -= 5
+                else:
+                    visited.add((x, y))
+                    score += 10
+                    score += 1 / (abs(end[0] - x) + abs(end[1] - y) + 1)
+                    if (x, y) == end:
+                        score += 200
+                        break
+            else:
+                score -= 100
         else:
-            score -= 10
-            break
+            score -= 100
+
+    score -= len(solution)
 
     return score
+
 
 gene_space = [0, 1, 2, 3]  # Możliwe ruchy: góra, dół, lewo, prawo
 
@@ -65,19 +76,21 @@ ga_instance = pygad.GA(
     mutation_type="random",
     mutation_percent_genes=15,
     gene_space=gene_space,
-    stop_criteria=["reach_100"]
+    stop_criteria=["reach_200"],
 )
+
 
 def plot_labirynt(labirynt, path=None):
     plt.figure(figsize=(10, 10))
-    plt.imshow(labirynt, cmap='Blues')
+    plt.imshow(labirynt, cmap="Blues")
 
     if path:
-        for (x, y) in path:
-            plt.plot(y, x, 'ro')
+        for x, y in path:
+            plt.plot(y, x, "ro")
 
     plt.title("Labirynt")
     plt.show()
+
 
 def get_path_from_solution(solution, start):
     x, y = start
@@ -94,6 +107,7 @@ def get_path_from_solution(solution, start):
         path.append((x, y))
     return path
 
+
 start_time = time.time()
 ga_instance.run()
 end_time = time.time()
@@ -105,5 +119,6 @@ print(f"Czas wykonania: {end_time - start_time:.2f} s")
 
 ga_instance.plot_fitness(title="Proces optymalizacji fitness")
 
-plot_labirynt(labirynt)
+# plot_labirynt(labirynt)
 plot_labirynt(labirynt, get_path_from_solution(solution, start))
+
