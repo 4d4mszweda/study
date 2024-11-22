@@ -66,7 +66,7 @@ def fitness_function(ga_instance, solution, solution_idx):
 gene_space = [0, 1, 2, 3]  # Możliwe ruchy: góra, dół, lewo, prawo
 
 ga_instance = pygad.GA(
-    num_generations=200,
+    num_generations=300,
     num_parents_mating=10,
     fitness_func=fitness_function,
     sol_per_pop=100,
@@ -76,7 +76,7 @@ ga_instance = pygad.GA(
     mutation_type="random",
     mutation_percent_genes=15,
     gene_space=gene_space,
-    stop_criteria=["reach_200"],
+    stop_criteria=["reach_300"],
 )
 
 
@@ -121,4 +121,3 @@ ga_instance.plot_fitness(title="Proces optymalizacji fitness")
 
 # plot_labirynt(labirynt)
 plot_labirynt(labirynt, get_path_from_solution(solution, start))
-
