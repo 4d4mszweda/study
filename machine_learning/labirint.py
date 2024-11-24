@@ -51,12 +51,12 @@ def fitness_function(ga_instance, solution, solution_idx):
                     score += 10
                     score += 1 / (abs(end[0] - x) + abs(end[1] - y) + 1)
                     if (x, y) == end:
-                        score += 200
+                        score += 20
                         break
             else:
-                score -= 100
+                score -= 10
         else:
-            score -= 100
+            score -= 10
 
     score -= len(solution)
 
@@ -66,14 +66,15 @@ def fitness_function(ga_instance, solution, solution_idx):
 gene_space = [0, 1, 2, 3]  # Możliwe ruchy: góra, dół, lewo, prawo
 
 ga_instance = pygad.GA(
-    num_generations=300,
-    num_parents_mating=10,
+    num_generations=1000,
+    num_parents_mating=60,
     fitness_func=fitness_function,
-    sol_per_pop=100,
+    sol_per_pop=150,
     num_genes=30,
-    init_range_low=0,
-    init_range_high=3,
+    keep_parents=2,
     mutation_type="random",
+    parent_selection_type="sss",
+    crossover_type="single_point",
     mutation_percent_genes=15,
     gene_space=gene_space,
     stop_criteria=["reach_300"],
