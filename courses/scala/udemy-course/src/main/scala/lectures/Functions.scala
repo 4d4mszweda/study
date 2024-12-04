@@ -26,4 +26,6 @@ object Functions extends App {
     }
 
     println(isPrime(27))
+
+    
 }
