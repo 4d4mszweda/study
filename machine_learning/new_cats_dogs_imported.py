@@ -1,12 +1,23 @@
 import tensorflow as tf
 from tensorflow.keras.applications import VGG16
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, Flatten, Dropout
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
+import os
 
-# Wybór modelu
-base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+model_path = "cats_dogs_classifier.weights.h5"
+
+if os.path.exists(model_path):
+    # Wczytanie zapisanego modelu
+    base_model = load_model(model_path)
+    print("Model załadowany z pliku.")
+else:
+    # Wybór modelu
+    base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+    print("Użycie modelu VGG16 jako bazowego.")
+
 
 # Zamrożenie warstw bazowego modelu
 for layer in base_model.layers:
@@ -47,14 +58,14 @@ history = model.fit(
     steps_per_epoch=train_generator.samples // train_generator.batch_size,
     validation_data=validation_generator,
     validation_steps=validation_generator.samples // validation_generator.batch_size,
-    epochs=10)
+    epochs=1)
 
 # Ocena modelu
 loss, accuracy = model.evaluate(validation_generator)
 print(f'Validation accuracy: {accuracy}')
 
 # Zapisanie modelu
-model.save('cats_dogs_classifier.weights.h5')
+model.save(model_path)
 
 # Wyświetlenie historii trenowania
 import matplotlib.pyplot as plt
