@@ -69,10 +69,10 @@ def main():
         print(f"{filename}: {bird_count} birds")
 
         # Wyświetlenie obrazów dla debugowania
-        # cv2.imshow("Original", enhanced_image)
+        cv2.imshow("Original", enhanced_image)
         # cv2.imshow("Gray", gray_image)
         # cv2.imshow("Preprocessed", preprocessed_image)
-        # cv2.imshow("Binary", binary_image)
+        cv2.imshow("Binary", binary_image)
         # cv2.imshow("Morphed", morphed_image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()

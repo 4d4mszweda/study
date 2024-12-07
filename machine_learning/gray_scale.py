@@ -19,7 +19,7 @@ def display_images(original, gray_avg, gray_weighted):
     cv2.destroyAllWindows()
 
 
-image_paths = ['./images/birds.png', './images/elephant.jpg', './images/giraffe.jpg']
+image_paths = ['./images/elephant.jpg', './images/giraffe.jpg']
 
 for path in image_paths:
     image = cv2.imread(path)
