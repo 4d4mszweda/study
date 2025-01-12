@@ -1,7 +1,7 @@
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 # import text2emotion as t2e
-from transformers import pipeline
+# from transformers import pipeline
 
 nltk.download('vader_lexicon')
 
@@ -34,9 +34,9 @@ def analyze_with_bert(review):
 print("Positive Review Analysis:")
 print("Vader:", analyze_with_vader(positive_review))
 # print("Text2Emotion:", analyze_with_text2emotion(positive_review))
-print("BERT:", analyze_with_bert(positive_review))
+# print("BERT:", analyze_with_bert(positive_review))
 
 print("\nNegative Review Analysis:")
 print("Vader:", analyze_with_vader(negative_review))
 # print("Text2Emotion:", analyze_with_text2emotion(negative_review))
-print("BERT:", analyze_with_bert(negative_review))
+# print("BERT:", analyze_with_bert(negative_review))
